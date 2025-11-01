@@ -1,28 +1,21 @@
-#include <SoftwareSerial.h>
-
-SoftwareSerial BT(2, 3);  // RX, TX
-int ledPin = 13;
-char command;
-
-void setup() {
-  pinMode(ledPin, OUTPUT);
-  BT.begin(9600);
-  Serial.begin(9600);
-  Serial.println("Bluetooth LED Control Ready");
+char Incoming_value = 0;
+                
+void setup() 
+{
+  Serial.begin(9600);         
+  pinMode(13, OUTPUT);       
 }
 
-void loop() {
-  if (BT.available()) {
-    command = BT.read();
-    Serial.println(command);
-    
-    if (command == '1') {
-      digitalWrite(ledPin, HIGH);
-      Serial.println("LED ON");
-    } 
-    else if (command == '0') {
-      digitalWrite(ledPin, LOW);
-      Serial.println("LED OFF");
-    }
-  }
+void loop()
+{
+  if(Serial.available() > 0)  
+  {
+    Incoming_value = Serial.read();      
+    Serial.print(Incoming_value);        
+    Serial.print("\n");        
+    if(Incoming_value == '1')             
+      digitalWrite(13, HIGH);  
+    else if(Incoming_value == '0')       
+      digitalWrite(13, LOW);   
+  }                            
 }
